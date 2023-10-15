@@ -31,12 +31,12 @@ module "s3" {
   count = 10
 
   bucket = "${var.bucketname}-${count.index}-${random_string.random.id}"
-  acl    = "private"
 }
 
 resource "aws_s3_bucket_acl" "bucket-acl" {
   count  = 10
   bucket = module.s3[count.index].s3_bucket_id
+  acl    = "private"
 }
 
 resource "aws_s3_bucket_ownership_controls" "bucket-acl-ownership" {
