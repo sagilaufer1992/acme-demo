@@ -33,7 +33,20 @@ module "s3" {
   bucket = "${var.bucketname}-${count.index}-${random_string.random.id}"
   acl    = "private"
 }
-  
+
+resource "aws_s3_bucket_acl" "bucket-acl" {
+  count  = 10
+  bucket = module.s3[count.index].s3_bucket_id
+}
+
+resource "aws_s3_bucket_ownership_controls" "bucket-acl-ownership" {
+  count  = 10
+  bucket = module.s3[count.index].s3_bucket_id
+  rule {
+    object_ownership = "BucketOwnerEnforced"
+  }
+}
+
 output "s3_bucket_arn" {
   value = module.s3[*].s3_bucket_arn
 }
