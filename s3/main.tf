@@ -35,5 +35,5 @@ module "s3" {
 }
   
 output "s3_bucket_arn" {
-  value = module.s3.s3_bucket_arn
+  value = module.s3[*].s3_bucket_arn
 }
