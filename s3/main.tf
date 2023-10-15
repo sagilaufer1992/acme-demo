@@ -8,12 +8,12 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-west-2"
+  region = "us-east-1"
 }
 
 variable "bucketname" {
   type    = string
-  default = "env0-acme-bucket"
+  default = "sagi-demo-bucket"
 }
 
 resource "random_string" "random" {
@@ -28,7 +28,9 @@ module "s3" {
   source  = "terraform-aws-modules/s3-bucket/aws"
   version = "3.0.0"
 
-  bucket = "${var.bucketname}-${random_string.random.id}"
+  count = 10
+
+  bucket = "${var.bucketname}-${count.index}-${random_string.random.id}"
   acl    = "private"
 }
   
