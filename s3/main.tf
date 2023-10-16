@@ -21,14 +21,14 @@ resource "random_string" "random" {
   special = false
   lower   = true
   upper   = false
-  number  = true
+  numeric  = true
 }
 
 module "s3" {
   source  = "terraform-aws-modules/s3-bucket/aws"
   version = "3.0.0"
 
-  count = 10
+  count = 100
 
   bucket = "${var.bucketname}-${count.index}-${random_string.random.id}"
 }
@@ -36,7 +36,6 @@ module "s3" {
 resource "aws_s3_bucket_acl" "bucket-acl" {
   count  = 10
   bucket = module.s3[count.index].s3_bucket_id
-  acl    = "private"
 }
 
 resource "aws_s3_bucket_ownership_controls" "bucket-acl-ownership" {
